@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
+/* HSIsharq Light - load locally from public/fonts/ */
+@font-face {
+  font-family: 'HSIsharq';
+  src: url('/fonts/HSIsharq-Light.woff2') format('woff2'),
+       url('/fonts/HSIsharq-Light.woff') format('woff'),
+       url('/fonts/HSIsharq-Light.ttf') format('truetype'),
+       url('/fonts/HSIsharq-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  html, body {
+    font-family: 'HSIsharq', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+    background-color: #f6f8fb;
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    letter-spacing: 0;
+  }
+  body {
+    background-image:
+      radial-gradient(at 15% -5%, rgba(37, 99, 235, 0.07) 0px, transparent 45%),
+      radial-gradient(at 85% 105%, rgba(16, 185, 129, 0.05) 0px, transparent 45%);
+    min-height: 100vh;
+  }
+  /* Headings use IBM Plex (has real bold weight). HSIsharq Light only has light weight,
+     so using it for bold headings would force browser-synthesized fake bold. */
+  h1, h2, h3, h4, h5 {
+    font-family: 'IBM Plex Sans Arabic', 'HSIsharq', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  /* Numbers and code stay in IBM Plex too */
+  .font-mono, code, kbd, samp, pre {
+    font-family: 'IBM Plex Sans Arabic', system-ui, monospace;
+  }
+  ::selection {
+    background-color: rgb(37 99 235 / 0.20);
+    color: #0f172a;
+  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(203 213 225);
+    border-radius: 9999px;
+    border: 2px solid #f6f8fb;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(148 163 184); }
+}
+
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-soft hover:bg-brand-700 hover:shadow-card-hover active:scale-[0.98] focus:ring-brand-500;
+  }
+  .btn-secondary {
+    @apply btn bg-white border border-slate-200 text-slate-700 shadow-soft hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98] focus:ring-slate-400;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white shadow-soft hover:bg-red-700 active:scale-[0.98] focus:ring-red-500;
+  }
+  .btn-ghost {
+    @apply btn text-slate-700 hover:bg-slate-100 active:scale-[0.98];
+  }
+  .btn-lg { @apply px-6 py-3 text-base; }
+  .btn-sm { @apply px-3 py-1.5 text-xs; }
+
+  /* Form controls */
+  .input {
+    @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-900 placeholder-slate-400 shadow-soft transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30;
+  }
+  .label { @apply mb-1.5 block text-sm font-medium text-slate-700; }
+  .helper { @apply mt-1 text-xs text-slate-500; }
+
+  /* Cards */
+  .card {
+    @apply rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card transition;
+  }
+  .card-hover {
+    @apply hover:-translate-y-0.5 hover:shadow-card-hover hover:border-slate-300;
+  }
+  .card-tight {
+    @apply rounded-xl border border-slate-200/70 bg-white p-3 shadow-soft;
+  }
+  .card-elev {
+    @apply rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card-hover;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium leading-5;
+  }
+  .badge-success { @apply badge bg-success-100 text-success-700 ring-1 ring-success-500/20; }
+  .badge-warning { @apply badge bg-amber-100 text-amber-800 ring-1 ring-amber-500/20; }
+  .badge-danger  { @apply badge bg-red-100 text-red-700 ring-1 ring-red-500/20; }
+  .badge-info    { @apply badge bg-brand-100 text-brand-700 ring-1 ring-brand-500/20; }
+  .badge-neutral { @apply badge bg-slate-100 text-slate-700 ring-1 ring-slate-500/20; }
+
+  /* Section header */
+  .section-header { @apply mb-4 flex flex-wrap items-end justify-between gap-3; }
+  .section-title  { @apply text-xl font-bold text-slate-900 sm:text-2xl; }
+
+  /* Stat card */
+  .stat-card {
+    @apply rounded-2xl border border-slate-200/70 bg-white p-4 shadow-card transition hover:shadow-card-hover;
+  }
+  .stat-value { @apply text-2xl font-bold tracking-tight sm:text-3xl; }
+  .stat-label { @apply text-xs text-slate-600 sm:text-sm; }
+
+  /* Empty state */
+  .empty-state {
+    @apply card flex flex-col items-center justify-center gap-2 py-10 text-center text-slate-500;
+  }
+
+  /* Page heading */
+  .page-header   { @apply mb-6 space-y-1; }
+  .page-title    { @apply text-2xl font-bold text-slate-900 sm:text-3xl; }
+  .page-subtitle { @apply text-sm text-slate-600 sm:text-base; }
+
+  /* Hero shell */
+  .hero {
+    @apply relative overflow-hidden rounded-3xl px-6 py-12 shadow-card-hover sm:px-12 sm:py-16;
+  }
+
+  /* Tab strip */
+  .tab {
+    @apply -mb-px inline-flex items-center gap-1.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-900;
+  }
+  .tab-active { @apply border-brand-600 text-brand-700; }
+
+  /* Divider with label */
+  .divider { @apply flex items-center gap-3 text-xs text-slate-400; }
+  .divider::before, .divider::after {
+    content: '';
+    @apply h-px flex-1 bg-slate-200;
+  }
+}
+
+/* Map */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+}
+
+/* Line clamp helper */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
