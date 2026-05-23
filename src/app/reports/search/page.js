@@ -1,8 +1,16 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ReportCard from '@/components/ReportCard';
+
+const SUDAN_STATES = [
+  'الخرطوم', 'الجزيرة', 'سنار', 'النيل الأبيض', 'النيل الأزرق', 'نهر النيل',
+  'الشمالية', 'كسلا', 'القضارف', 'البحر الأحمر',
+  'شمال كردفان', 'جنوب كردفان', 'غرب كردفان',
+  'شمال دارفور', 'جنوب دارفور', 'شرق دارفور', 'غرب دارفور', 'وسط دارفور',
+];
 
 function SearchPageInner() {
   const router = useRouter();
@@ -49,89 +57,162 @@ function SearchPageInner() {
     runSearch('', '');
   }
 
+  function quickCity(c) {
+    setCity(c);
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    params.set('city', c);
+    router.push(`/reports/search?${params.toString()}`);
+    runSearch(q, c);
+  }
+
   return (
-    <div className="space-y-6">
-      <header className="hero bg-gradient-to-br from-brand-700 to-brand-900 text-white">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-25"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 10% 10%, rgba(255,255,255,0.18) 0px, transparent 40%), radial-gradient(circle at 90% 90%, rgba(255,255,255,0.10) 0px, transparent 40%)',
-          }}
-        />
-        <div className="relative mx-auto max-w-3xl text-center">
-          <h1 className="mb-2 text-2xl font-bold sm:text-3xl">🔎 ابحث في البلاغات</h1>
-          <p className="text-brand-50">
-            ابحث برقم اللوحة أو الشاسيه، أو تصفّح كل البلاغات المنشورة.
-          </p>
+    <div className="space-y-4">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-2 text-sm text-slate-500">
+        <Link href="/" className="hover:text-brand-700">الرئيسية</Link>
+        <span>›</span>
+        <span className="text-slate-700">البلاغات</span>
+      </nav>
 
-          <form
-            onSubmit={handleSubmit}
-            className="mt-6 grid gap-2 rounded-2xl bg-white/10 p-2 backdrop-blur sm:grid-cols-[1fr_220px_auto]"
-          >
-            <input
-              type="text"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              className="rounded-xl border-0 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 shadow-soft focus:outline-none focus:ring-2 focus:ring-white"
-              placeholder="رقم اللوحة، الشاسيه، الماركة..."
-            />
-            <input
-              type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="rounded-xl border-0 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 shadow-soft focus:outline-none focus:ring-2 focus:ring-white"
-              placeholder="الولاية (اختياري)"
-            />
-            <button
-              type="submit"
-              className="rounded-xl bg-amber-400 px-6 py-3 font-bold text-slate-900 shadow-soft transition hover:bg-amber-300 active:scale-[0.98]"
-            >
-              بحث
-            </button>
-          </form>
+      <div className="page-header">
+        <h1 className="page-title">🔎 البلاغات المنشورة</h1>
+        <p className="page-subtitle">
+          {loading
+            ? 'جاري التحميل...'
+            : hasFilters
+              ? `${results.length} نتيجة مطابقة`
+              : `${results.length} بلاغ نشط - تصفّح أو فلتر بالولاية`}
+        </p>
+      </div>
 
-          {hasFilters && (
-            <button
-              onClick={clearFilters}
-              className="mt-3 text-sm text-brand-100 hover:text-white hover:underline"
-            >
-              × مسح الفلاتر وعرض كل البلاغات
-            </button>
-          )}
-        </div>
-      </header>
+      <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
+        {/* ASIDE - Filters */}
+        <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          {/* Search form */}
+          <div className="card !p-4">
+            <h2 className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-500">
+              فلاتر البحث
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div>
+                <label className="label !text-xs">كلمة البحث</label>
+                <input
+                  type="text"
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  className="input"
+                  placeholder="لوحة، شاسيه، ماركة..."
+                />
+              </div>
+              <div>
+                <label className="label !text-xs">الولاية</label>
+                <select
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="input"
+                >
+                  <option value="">جميع الولايات</option>
+                  {SUDAN_STATES.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+              <button type="submit" className="btn-primary w-full justify-center">
+                🔍 بحث
+              </button>
+              {hasFilters && (
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="w-full text-center text-xs text-slate-500 hover:text-slate-900 hover:underline"
+                >
+                  × مسح الفلاتر
+                </button>
+              )}
+            </form>
+          </div>
 
-      {loading ? (
-        <div className="empty-state">
-          <div className="animate-pulse text-4xl">⏳</div>
-          <p>جاري التحميل...</p>
-        </div>
-      ) : results.length === 0 ? (
-        <div className="empty-state">
-          <div className="text-5xl">🔍</div>
-          <p className="font-medium text-slate-700">
-            {hasFilters ? 'لم يتم العثور على نتائج مطابقة' : 'لا توجد بلاغات منشورة حالياً'}
-          </p>
-          {hasFilters && (
-            <p className="text-sm text-slate-500">جرّب كلمة بحث مختلفة أو ولاية أخرى.</p>
-          )}
-        </div>
-      ) : (
-        <>
-          <div className="flex items-center justify-between text-sm">
-            <p className="font-medium text-slate-700">
-              {hasFilters ? `${results.length} نتيجة مطابقة` : `جميع البلاغات (${results.length})`}
+          {/* Quick city chips */}
+          <div className="card !p-4">
+            <h2 className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-500">
+              ولايات شائعة
+            </h2>
+            <div className="flex flex-wrap gap-1.5">
+              {['الخرطوم', 'الجزيرة', 'نهر النيل', 'البحر الأحمر', 'كسلا'].map((c) => (
+                <button
+                  key={c}
+                  onClick={() => quickCity(c)}
+                  className={`rounded-full px-2.5 py-1 text-xs transition ${
+                    city === c
+                      ? 'bg-brand-600 text-white'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Tip */}
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-relaxed text-amber-900">
+            <p className="mb-1 font-bold">💡 نصيحة بحث</p>
+            <p>
+              تقدر تبحث بـ <strong>جزء من رقم اللوحة</strong> أو <strong>الشاسيه</strong>،
+              ومش لازم تكتب الرقم كامل.
             </p>
-            <p className="text-xs text-slate-500">مرتبة من الأحدث للأقدم</p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((r) => (
-              <ReportCard key={r.id} report={r} />
-            ))}
-          </div>
-        </>
-      )}
+        </aside>
+
+        {/* MAIN - Results */}
+        <main>
+          {loading ? (
+            <div className="empty-state">
+              <div className="animate-pulse text-4xl">⏳</div>
+              <p>جاري التحميل...</p>
+            </div>
+          ) : results.length === 0 ? (
+            <div className="empty-state">
+              <div className="text-5xl">🔍</div>
+              <p className="font-medium text-slate-700">
+                {hasFilters ? 'لم يتم العثور على نتائج مطابقة' : 'لا توجد بلاغات منشورة حالياً'}
+              </p>
+              {hasFilters && (
+                <button
+                  onClick={clearFilters}
+                  className="mt-2 text-sm text-brand-600 hover:underline"
+                >
+                  ← عرض كل البلاغات
+                </button>
+              )}
+            </div>
+          ) : (
+            <>
+              {hasFilters && (
+                <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+                  <span className="text-slate-500">الفلاتر:</span>
+                  {q && (
+                    <span className="rounded-full bg-brand-100 px-2.5 py-0.5 font-medium text-brand-700">
+                      &quot;{q}&quot;
+                    </span>
+                  )}
+                  {city && (
+                    <span className="rounded-full bg-brand-100 px-2.5 py-0.5 font-medium text-brand-700">
+                      📍 {city}
+                    </span>
+                  )}
+                </div>
+              )}
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                {results.map((r) => (
+                  <ReportCard key={r.id} report={r} />
+                ))}
+              </div>
+            </>
+          )}
+        </main>
+      </div>
     </div>
   );
 }

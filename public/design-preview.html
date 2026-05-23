@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>معاينة التصميم الجديد — منصة السيارات المفقودة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@300;400;500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --display: 'Cairo', system-ui, sans-serif;
+      --body: 'Tajawal', system-ui, sans-serif;
+      --mono: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --brand: #2563eb;
+      --brand-dark: #1e3a8a;
+      --amber: #f59e0b;
+      --green: #10b981;
+      --border: #e2e8f0;
+    }
+
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 16px;
+      background-image:
+        radial-gradient(at 15% -5%, rgba(37, 99, 235, 0.07) 0px, transparent 45%),
+        radial-gradient(at 85% 105%, rgba(16, 185, 129, 0.05) 0px, transparent 45%);
+      min-height: 100vh;
+    }
+
+    .container { max-width: 980px; margin: 0 auto; }
+
+    /* Headings always use display font */
+    h1, h2, h3, h4 {
+      font-family: var(--display);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+    }
+
+    .mono, code { font-family: var(--mono); }
+
+    /* Header banner */
+    .preview-banner {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .preview-banner strong { font-family: var(--display); font-weight: 700; }
+
+    /* Section */
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06);
+    }
+    section h2 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .section-intro {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* Font specimen */
+    .specimen {
+      padding: 20px;
+      border-radius: 12px;
+      background: #f8fafc;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    .specimen-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--brand);
+      background: #dbeafe;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .specimen-headline {
+      font-size: 32px;
+      margin-bottom: 4px;
+    }
+    .specimen-subtext {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .specimen-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .specimen-meta span { font-family: var(--mono); }
+
+    .display-spec { font-family: var(--display); }
+    .body-spec { font-family: var(--body); }
+    .mono-spec { font-family: var(--mono); }
+
+    /* MOCK: Hero */
+    .mock-hero {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #1e3a8a 100%);
+      color: white;
+      padding: 48px 32px;
+      border-radius: 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .mock-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.18) 0px, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(255,255,255,0.10) 0px, transparent 40%);
+      opacity: 0.5;
+    }
+    .mock-hero-content { position: relative; }
+    .mock-hero .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .mock-hero h1 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 48px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .mock-hero .tagline {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 22px;
+      background: linear-gradient(90deg, #fde68a, #fef3c7, #fde68a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 18px;
+    }
+    .mock-hero .desc {
+      font-family: var(--body);
+      font-weight: 400;
+      font-size: 15px;
+      color: rgba(255,255,255,0.85);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* MOCK: Card */
+    .mock-card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .mock-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06);
+    }
+    .mock-card .image {
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      opacity: 0.6;
+      position: relative;
+    }
+    .mock-card .reward {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: var(--amber);
+      color: #0f172a;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--display);
+    }
+    .mock-card .body { padding: 16px; }
+    .mock-card .title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+    .mock-card .row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .mock-card .row .label {
+      color: var(--muted);
+      font-family: var(--body);
+    }
+    .mock-card .row .value {
+      color: var(--text);
+      font-family: var(--body);
+    }
+    .mock-card .row .plate {
+      font-family: var(--mono);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* Buttons */
+    .btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn {
+      font-family: var(--display);
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn-primary {
+      background: var(--brand);
+      color: white;
+    }
+    .btn-secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-success { background: var(--green); color: white; }
+
+    /* Badges */
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--display);
+    }
+    .badge-success { background: #d1fae5; color: #047857; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger { background: #fee2e2; color: #b91c1c; }
+    .badge-info { background: #dbeafe; color: #1d4ed8; }
+
+    /* Size scale */
+    .sizes p {
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .sizes .s-display { font-family: var(--display); }
+    .size-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-right: 12px;
+    }
+
+    /* Approval banner */
+    .approval {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #0f172a;
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .approval h2 {
+      font-size: 22px;
+      margin-bottom: 6px;
+      color: #0f172a;
+    }
+    .approval p {
+      font-size: 14px;
+    }
+
+    /* Numbers / plates */
+    .plate-demo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #eff6ff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid #bfdbfe;
+      font-family: var(--mono);
+      font-weight: 600;
+      color: var(--brand-dark);
+      margin-left: 8px;
+      margin-bottom: 6px;
+    }
+    .plate-demo .label {
+      font-family: var(--body);
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--brand);
+    }
+
+    @media (max-width: 640px) {
+      .mock-card-row { grid-template-columns: 1fr; }
+      .mock-hero h1 { font-size: 32px; }
+      .mock-hero .tagline { font-size: 18px; }
+      .specimen-headline { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Preview banner -->
+    <div class="preview-banner">
+      🎨 <strong>صفحة معاينة فقط</strong> — هذا ما سيبدو عليه الموقع لو وافقت على التصميم الجديد (لم يُطبَّق بعد على الموقع)
+    </div>
+
+    <!-- Intro -->
+    <section>
+      <h2>📐 نظام الخطوط الجديد</h2>
+      <p class="section-intro">
+        ثلاثة خطوط عربية مشهورة كل واحد بدور مميز — معاً يعطون تنوّع بصري بدون تشتيت.
+      </p>
+
+      <!-- Cairo specimen -->
+      <div class="specimen">
+        <span class="specimen-label">للعناوين والواجهة</span>
+        <div class="specimen-headline display-spec">Cairo · القاهرة</div>
+        <div class="specimen-subtext display-spec" style="font-weight: 500;">
+          خط حديث، واضح، احترافي — مناسب للعناوين الكبيرة والأزرار وعناصر الواجهة.
+        </div>
+        <div class="specimen-meta">
+          <span>Google Fonts</span>
+          <span>أوزان: 400, 500, 600, 700, 800</span>
+          <span>~80,000+ موقع يستخدمه</span>
+        </div>
+      </div>
+
+      <!-- Tajawal specimen -->
+      <div class="specimen">
+        <span class="specimen-label">للنصوص والفقرات</span>
+        <div class="specimen-headline body-spec">Tajawal · تجوال</div>
+        <div class="specimen-subtext body-spec" style="font-weight: 400;">
+          خط متوازن سهل القراءة — مثالي للفقرات الطويلة والأوصاف وتفاصيل البلاغات.
+          يعمل جيداً مع الحروف العربية الدقيقة كالهمزات والشدة.
+        </div>
+        <div class="specimen-meta">
+          <span>Google Fonts</span>
+          <span>أوزان: 300, 400, 500, 700</span>
+          <span>قابل للقراءة في كل الأحجام</span>
+        </div>
+      </div>
+
+      <!-- IBM Plex specimen -->
+      <div class="specimen">
+        <span class="specimen-label">للأرقام والبيانات التقنية</span>
+        <div class="specimen-headline mono-spec">IBM Plex · للأرقام</div>
+        <div class="specimen-subtext mono-spec" style="font-weight: 500;">
+          خط هندسي من IBM — ممتاز لأرقام اللوحات والشاسيه والأكواد.
+        </div>
+        <div style="margin-top: 12px;">
+          <span class="plate-demo">
+            <span class="label">لوحة:</span>
+            KRT 12345
+          </span>
+          <span class="plate-demo">
+            <span class="label">شاسيه:</span>
+            JTDBR32E120098765
+          </span>
+        </div>
+        <div class="specimen-meta">
+          <span>Google Fonts</span>
+          <span>أوزان: 400, 500, 600, 700</span>
+          <span>تصميم IBM الرسمي</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hero mock -->
+    <section>
+      <h2>🏠 معاينة الصفحة الرئيسية (Hero)</h2>
+      <p class="section-intro">شكل الـ hero بـ الخطوط الجديدة:</p>
+
+      <div class="mock-hero">
+        <div class="mock-hero-content">
+          <div class="chip">🇸🇩 <span>منصة سودانية موثوقة لـ 3 بلاغ نشط</span></div>
+          <h1>ابحث عن سيارتك المفقودة</h1>
+          <div class="tagline">بأقل وقت وأكبر فرصة</div>
+          <p class="desc">
+            سجّل بلاغك، تواصل مع المجتمع السوداني، وزيد فرصتك في استرداد سيارتك بفضل المشاهدات والإبلاغات.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards mock -->
+    <section>
+      <h2>🪪 معاينة بطاقة البلاغ</h2>
+      <p class="section-intro">شكل البطاقات في صفحة البحث:</p>
+
+      <div class="mock-card-row">
+        <div class="mock-card">
+          <div class="image">
+            🚗
+            <span class="reward">💰 500,000 جنيه</span>
+          </div>
+          <div class="body">
+            <div class="title">تويوتا كورولا <span style="color: var(--muted); font-weight: 500;">(2018)</span></div>
+            <div class="row">
+              <span class="label">🔢 رقم اللوحة</span>
+              <span class="value plate">KRT 12345</span>
+            </div>
+            <div class="row">
+              <span class="label">🎨 اللون</span>
+              <span class="value">أبيض</span>
+            </div>
+            <div class="row">
+              <span class="label">📍 الولاية</span>
+              <span class="value">الخرطوم</span>
+            </div>
+            <div class="row">
+              <span class="label">📅 فُقدت في</span>
+              <span class="value">10 مايو 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card">
+          <div class="image" style="background: linear-gradient(135deg, #1e293b, #475569);">🚙</div>
+          <div class="body">
+            <div class="title">نيسان قشقاي <span style="color: var(--muted); font-weight: 500;">(2021)</span></div>
+            <div class="row">
+              <span class="label">🪪 رقم الشاسيه</span>
+              <span class="value plate" style="font-size: 11px;">JN8AS5MT9DW123ABC</span>
+            </div>
+            <div class="row">
+              <span class="label">🎨 اللون</span>
+              <span class="value">أبيض لؤلؤي</span>
+            </div>
+            <div class="row">
+              <span class="label">📍 الولاية</span>
+              <span class="value">نهر النيل</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Size scale -->
+    <section>
+      <h2>📏 سلّم الأحجام والأوزان</h2>
+      <p class="section-intro">التوزيع الموحد للخطوط حسب الاستخدام:</p>
+
+      <div class="sizes">
+        <p class="s-display" style="font-size: 36px; font-weight: 800;">
+          <span class="size-tag">H1 · Cairo 800 · 36px</span>عنوان رئيسي ضخم
+        </p>
+        <p class="s-display" style="font-size: 28px; font-weight: 700;">
+          <span class="size-tag">H2 · Cairo 700 · 28px</span>عنوان قسم
+        </p>
+        <p class="s-display" style="font-size: 20px; font-weight: 700;">
+          <span class="size-tag">H3 · Cairo 700 · 20px</span>عنوان فرعي
+        </p>
+        <p style="font-size: 17px; font-family: var(--body); font-weight: 500;">
+          <span class="size-tag">Lead · Tajawal 500 · 17px</span>نص بارز يلفت الانتباه
+        </p>
+        <p style="font-size: 15px; font-family: var(--body); font-weight: 400;">
+          <span class="size-tag">Body · Tajawal 400 · 15px</span>نص الفقرة الأساسي يُقرأ بسهولة على مدى طويل
+        </p>
+        <p style="font-size: 13px; font-family: var(--body); font-weight: 400; color: var(--muted);">
+          <span class="size-tag">Caption · Tajawal 400 · 13px</span>نص مساعد للملاحظات الصغيرة
+        </p>
+        <p style="font-family: var(--mono); font-weight: 600; font-size: 15px;">
+          <span class="size-tag">Mono · Plex 600</span>KRT 12345 · JTDBR32E120098765
+        </p>
+      </div>
+    </section>
+
+    <!-- Buttons and badges -->
+    <section>
+      <h2>🎛️ الأزرار والشارات</h2>
+      <p class="section-intro">عناصر التفاعل بخط Cairo Semibold:</p>
+
+      <div class="btns" style="margin-bottom: 20px;">
+        <button class="btn btn-primary">🔍 بحث</button>
+        <button class="btn btn-secondary">إلغاء</button>
+        <button class="btn btn-success">✅ نشر</button>
+        <button class="btn btn-danger">🗑️ حذف</button>
+      </div>
+
+      <div class="badges">
+        <span class="badge badge-success">منشور</span>
+        <span class="badge badge-warning">قيد المراجعة</span>
+        <span class="badge badge-info">تم الاسترداد</span>
+        <span class="badge badge-danger">🗑️ طلب حذف</span>
+      </div>
+    </section>
+
+    <!-- Approval -->
+    <div class="approval">
+      <h2>✋ هل توافق على هذا التصميم؟</h2>
+      <p>
+        لو أعجبك، قول لي <strong>"وافق"</strong> أو <strong>"طبّق"</strong> وسأطبّقه على الموقع كاملاً.<br />
+        لو في تعديل، قول لي ما تحب تغيّر (مثلاً: "ابدّل Tajawal بـ Almarai" أو "اجعل العناوين أصغر").
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

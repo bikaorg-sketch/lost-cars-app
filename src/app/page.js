@@ -17,6 +17,8 @@ export default async function HomePage() {
     prisma.user.count(),
   ]);
 
+  void totalReports; // count is shown only in the stats grid below; not in the hero chip.
+
   return (
     <div className="space-y-14">
       {/* HERO */}
@@ -31,7 +33,7 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-3xl text-center">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/15 px-3.5 py-1.5 text-xs font-medium backdrop-blur">
             <span>🇸🇩</span>
-            <span>منصة سودانية موثوقة لـ {totalReports} بلاغ نشط</span>
+            <span>منصة سودانية موثوقة</span>
           </div>
 
           <h1 className="font-display mb-3 text-4xl font-bold leading-[1.15] tracking-tight sm:text-6xl">

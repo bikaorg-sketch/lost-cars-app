@@ -4,10 +4,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        // Body: HSIsharq Light (elegant, light weight for paragraphs)
-        sans: ['HSIsharq', '"IBM Plex Sans Arabic"', 'system-ui', 'sans-serif'],
-        // Display: IBM Plex Sans Arabic (has multiple weights, used for headings)
-        display: ['"IBM Plex Sans Arabic"', 'HSIsharq', 'system-ui', 'sans-serif'],
+        // Fonts come from next/font (see src/app/layout.js).
+        // Each font exposes a CSS variable on <html>.
+        sans:    ['var(--font-tajawal)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-cairo)',   'system-ui', 'sans-serif'],
+        mono:    ['var(--font-plex)',    'system-ui', 'monospace'],
       },
       colors: {
         brand: {
